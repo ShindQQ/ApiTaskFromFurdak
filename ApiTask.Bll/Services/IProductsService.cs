@@ -1,10 +1,23 @@
-﻿using ApiTaskCodeFirst.Dal.Entities;
+﻿using ApiTask.Bll.Models;
+using ApiTaskCodeFirst.Dal.Entities;
 
 namespace ApiTask.Bll.Services;
 
 public interface IProductsService
 {
-    Task<Product> AddProductAsync(Product product);
+    Task<List<Product>> GetAsync();
 
-    Task RemovedProductAsync(Product product);
+    Task<Product> FindProductAsync(ProductForSearchDto productForSearch);
+
+    Task<List<Product>> FindProductsAsync(ProductForSearchDto productForSearch);
+
+    Task<Product> AddAsync(Product product);
+
+    Task<Product> ChangeProductQuantityAsync(int id, int quantity);
+
+    Task<Product> ChangeProductAttributesAsync(int id, List<ProductAttribute> productAttributes);
+
+    Task<Product> AddProductAttributesAsync(int id, List<ProductAttribute> productAttributes);
+
+    Task RemoveAsync(int id);
 }

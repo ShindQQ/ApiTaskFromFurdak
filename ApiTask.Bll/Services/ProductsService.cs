@@ -1,6 +1,8 @@
-﻿using ApiTask.Bll.Models.Error;
+﻿using ApiTask.Bll.Models;
+using ApiTask.Bll.Models.Error;
 using ApiTaskCodeFirst.Dal.Contexts;
 using ApiTaskCodeFirst.Dal.Entities;
+using Microsoft.EntityFrameworkCore;
 using System.Net;
 
 namespace ApiTask.Bll.Services;
@@ -14,11 +16,46 @@ public sealed class ProductsService : IProductsService
         _productsContext = productsContext ?? throw new ArgumentNullException(nameof(productsContext));
     }
 
-    public async Task<Product> AddProductAsync(Product product)
+    public async Task<List<Product>> GetAsync()
+    {
+        return await _productsContext.Products.ToListAsync();
+    }
+
+    private IQueryable<Product> FindProducts(ProductForSearchDto productForSearch)
+    {
+        if (productForSearch == null)
+        {
+            throw new HttpStatusCodeException(HttpStatusCode.BadRequest, $"{nameof(productForSearch)} searching parameters cannot be empty!");
+        }
+
+        var products = _productsContext.Products
+            .Where(product => !productForSearch.Id.HasValue || product.Id == productForSearch.Id)
+            .Where(product => string.IsNullOrEmpty(productForSearch.Category) ||
+                product.Category.ToLower().Equals(productForSearch.Category.ToLower()));
+
+        if (!products.Any())
+        {
+            throw new HttpStatusCodeException(HttpStatusCode.NotFound, $"{nameof(products)} entity does not found!");
+        }
+
+        return products;
+    }
+
+    public async Task<Product> FindProductAsync(ProductForSearchDto productForSearch)
+    {
+        return await FindProducts(productForSearch).FirstAsync();
+    }
+
+    public async Task<List<Product>> FindProductsAsync(ProductForSearchDto productForSearch)
+    {
+        return await FindProducts(productForSearch).ToListAsync();
+    }
+
+    public async Task<Product> AddAsync(Product product)
     {
         if (product == null)
         {
-            throw new HttpStatusCodeException(HttpStatusCode.BadRequest, "Product entity cannot be null!");
+            throw new HttpStatusCodeException(HttpStatusCode.BadRequest, $"{nameof(product)} entity cannot be null!");
         }
 
         await _productsContext.AddAsync(product);
@@ -27,14 +64,57 @@ public sealed class ProductsService : IProductsService
         return product;
     }
 
-    public async Task RemovedProductAsync(Product product)
+    public async Task RemoveAsync(int id)
     {
-        if (product == null)
+        _productsContext.Remove(new Product { Id = id });
+        await _productsContext.SaveChangesAsync();
+    }
+
+    public async Task<Product> ChangeProductQuantityAsync(int id, int quantity)
+    {
+        if (quantity < 0)
         {
-            throw new HttpStatusCodeException(HttpStatusCode.BadRequest, "Product entity cannot be null!");
+            throw new HttpStatusCodeException(HttpStatusCode.BadRequest, $"Quantity cannot be less than zero!");
         }
 
-        _productsContext.Remove(product);
+        var product = await FindProductAsync(new ProductForSearchDto { Id = id });
+
+        product.Quantity = quantity;
+
+        return product;
+    }
+
+    public async Task<Product> ChangeProductAttributesAsync(int id, List<ProductAttribute> productAttributes)
+    {
+        if (productAttributes == null || productAttributes.Count == 0)
+        {
+            throw new HttpStatusCodeException(HttpStatusCode.BadRequest, $"{nameof(productAttributes)} cannot be null or empty!");
+        }
+
+        var product = await FindProductAsync(new ProductForSearchDto { Id = id });
+
+        product.ProductAttributes = productAttributes;
+
+        _productsContext.Products.Update(product);
         await _productsContext.SaveChangesAsync();
+
+        return product;
+    }
+
+    public async Task<Product> AddProductAttributesAsync(int id, List<ProductAttribute> productAttributes)
+    {
+        if (productAttributes == null || productAttributes.Count == 0)
+        {
+            throw new HttpStatusCodeException(HttpStatusCode.BadRequest, $"{nameof(productAttributes)} cannot be null or empty!");
+        }
+
+        var product = await FindProductAsync(new ProductForSearchDto { Id = id });
+
+        product.ProductAttributes.AddRange(productAttributes);
+
+        _productsContext.Products.Update(product);
+        await _productsContext.SaveChangesAsync();
+
+        return product;
     }
 }

@@ -1,9 +1,9 @@
-﻿namespace ApiTaskCodeFirst.Dal.Entities;
+﻿using ApiTaskCodeFirst.Dal.Entities;
 
-public sealed class Product
+namespace ApiTask.Bll.Models;
+
+public sealed class ProductForInsertAndUpdateDto
 {
-    public int Id { get; set; }
-
     public string Name { get; set; }
 
     public string Description { get; set; }

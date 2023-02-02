@@ -1,4 +1,4 @@
-﻿using ApiTaskCodeFirst.Bll.Models.ForInsert;
+﻿using ApiTask.Bll.Models;
 using ApiTaskCodeFirst.Dal.Entities;
 using AutoMapper;
 
@@ -8,8 +8,8 @@ public sealed class ProductProfile : Profile
 {
     public ProductProfile()
     {
-        CreateMap<Product, ProductForInsert>();
-        CreateMap<ProductForInsert, Product>();
-        CreateMap<Product, ProductForInsert>().ReverseMap();
+        CreateMap<Product, ProductForInsertAndUpdateDto>();
+        CreateMap<ProductForInsertAndUpdateDto, Product>();
+        CreateMap<Product, ProductForInsertAndUpdateDto>().ReverseMap();
     }
 }
