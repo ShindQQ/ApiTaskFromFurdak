@@ -42,25 +42,25 @@ public sealed class ProductsController : ControllerBase
     }
 
     [HttpPost("{id:int}/Quantity")]
-    public async Task<IActionResult> ChangeProductQuantiyAsync([Required] int id, [Required] int quantity)
+    public async Task<IActionResult> ChangeProductQuantiyAsync([Required] int id, [Required] [FromBody] int quantity)
     {
         return Ok(await _productsService.ChangeProductQuantityAsync(id, quantity));
     }
 
     [HttpPost]
-    public async Task<IActionResult> AddProductAsync([Required] ProductForInsertAndUpdateDto product)
+    public async Task<IActionResult> AddProductAsync([Required] [FromBody] ProductForInsertAndUpdateDto product)
     {
         return Ok(await _productsService.AddAsync(_mapper.Map<Product>(product)));
     }
 
     [HttpPost("{id:int}/Attribute")]
-    public async Task<IActionResult> ChangeProductAttributesAsync([Required] int id, [Required] List<ProductAttribute> productAttributes)
+    public async Task<IActionResult> ChangeProductAttributesAsync([Required] int id, [Required] [FromBody] List<ProductAttribute> productAttributes)
     {
         return Ok(await _productsService.ChangeProductAttributesAsync(id, productAttributes));
     }
 
     [HttpPatch("{id:int}/Attribute")]
-    public async Task<IActionResult> AddProductAttributesAsync([Required] int id, [Required] List<ProductAttribute> productAttributes)
+    public async Task<IActionResult> AddProductAttributesAsync([Required] int id, [Required] [FromBody] List<ProductAttribute> productAttributes)
     {
         return Ok(await _productsService.AddProductAttributesAsync(id, productAttributes));
     }

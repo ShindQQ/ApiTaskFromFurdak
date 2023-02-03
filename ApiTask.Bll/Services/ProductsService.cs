@@ -81,7 +81,7 @@ public sealed class ProductsService : IProductsService
 
         product.Quantity = quantity;
 
-        return product;
+        return await UpdateAsync(product);
     }
 
     public async Task<Product> ChangeProductAttributesAsync(int id, List<ProductAttribute> productAttributes)
@@ -95,10 +95,7 @@ public sealed class ProductsService : IProductsService
 
         product.ProductAttributes = productAttributes;
 
-        _productsContext.Products.Update(product);
-        await _productsContext.SaveChangesAsync();
-
-        return product;
+        return await UpdateAsync(product);
     }
 
     public async Task<Product> AddProductAttributesAsync(int id, List<ProductAttribute> productAttributes)
@@ -112,6 +109,11 @@ public sealed class ProductsService : IProductsService
 
         product.ProductAttributes.AddRange(productAttributes);
 
+        return await UpdateAsync(product);
+    }
+
+    private async Task<Product> UpdateAsync(Product product)
+    {
         _productsContext.Products.Update(product);
         await _productsContext.SaveChangesAsync();
 
