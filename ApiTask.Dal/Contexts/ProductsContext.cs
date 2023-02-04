@@ -1,7 +1,7 @@
-﻿using ApiTaskCodeFirst.Dal.Entities;
+﻿using ApiTask.Dal.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace ApiTaskCodeFirst.Dal.Contexts;
+namespace ApiTask.Dal.Contexts;
 
 public sealed class ProductsContext : DbContext
 {

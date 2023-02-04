@@ -1,7 +1,7 @@
 ﻿using ApiTask.Bll.Models;
 using ApiTask.Bll.Models.Error;
-using ApiTaskCodeFirst.Dal.Contexts;
-using ApiTaskCodeFirst.Dal.Entities;
+using ApiTask.Dal.Contexts;
+using ApiTask.Dal.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
 

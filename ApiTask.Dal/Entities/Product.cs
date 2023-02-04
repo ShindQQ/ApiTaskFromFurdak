@@ -1,4 +1,4 @@
-﻿namespace ApiTaskCodeFirst.Dal.Entities;
+﻿namespace ApiTask.Dal.Entities;
 
 public sealed class Product
 {

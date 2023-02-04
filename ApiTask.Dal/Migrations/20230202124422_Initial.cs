@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace ApiTaskCodeFirst.Dal.Migrations
+namespace ApiTask.Dal.Migrations
 {
     /// <inheritdoc />
     public partial class Initial : Migration

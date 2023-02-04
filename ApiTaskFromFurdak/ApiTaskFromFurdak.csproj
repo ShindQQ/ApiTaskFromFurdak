@@ -20,7 +20,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ApiTask.Bll\ApiTask.Bll.csproj" />
-    <ProjectReference Include="..\ApiTaskCodeFirst.Dal\ApiTaskCodeFirst.Dal.csproj" />
+    <ProjectReference Include="..\ApiTask.Dal\ApiTask.Dal.csproj" />
+    <ProjectReference Include="..\ApiTaskCodeFirst.Dal\ApiTask.Dal.csproj" />
   </ItemGroup>
 
 </Project>

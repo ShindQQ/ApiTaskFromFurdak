@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace ApiTaskCodeFirst.Dal.Entities;
+namespace ApiTask.Dal.Entities;
 
 [Owned]
 public sealed class ProductAttribute

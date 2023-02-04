@@ -1,5 +1,5 @@
 ﻿using ApiTask.Bll.Models;
-using ApiTaskCodeFirst.Dal.Entities;
+using ApiTask.Dal.Entities;
 using AutoMapper;
 
 namespace ApiTask.Bll.Profiles;

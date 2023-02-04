@@ -1,4 +1,4 @@
-﻿using ApiTaskCodeFirst.Dal.Entities;
+﻿using ApiTask.Dal.Entities;
 
 namespace ApiTask.Bll.Models;
 
