@@ -1,5 +1,6 @@
 ﻿using ApiTask.Bll.Models;
 using ApiTask.Bll.Services;
+using ApiTask.Dal.Contexts;
 using ApiTask.Dal.Entities;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
@@ -19,8 +20,8 @@ public sealed class ProductsController : ControllerBase
 
     public ProductsController(IMapper mapper, IProductsService productsService)
     {
-        _mapper = mapper;
-        _productsService = productsService;
+        _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+        _productsService = productsService ?? throw new ArgumentNullException(nameof(productsService));
     }
 
     [HttpGet("Products")]

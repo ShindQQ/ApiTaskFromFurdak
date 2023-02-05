@@ -86,7 +86,7 @@ public sealed class ProductsService : IProductsService
 
     public async Task<Product> ChangeProductAttributesAsync(int id, List<ProductAttribute> productAttributes)
     {
-        if (productAttributes == null || productAttributes.Count == 0)
+        if (productAttributes == null || !productAttributes.Any())
         {
             throw new HttpStatusCodeException(HttpStatusCode.BadRequest, $"{nameof(productAttributes)} cannot be null or empty!");
         }
@@ -100,7 +100,7 @@ public sealed class ProductsService : IProductsService
 
     public async Task<Product> AddProductAttributesAsync(int id, List<ProductAttribute> productAttributes)
     {
-        if (productAttributes == null || productAttributes.Count == 0)
+        if (productAttributes == null || !productAttributes.Any())
         {
             throw new HttpStatusCodeException(HttpStatusCode.BadRequest, $"{nameof(productAttributes)} cannot be null or empty!");
         }
