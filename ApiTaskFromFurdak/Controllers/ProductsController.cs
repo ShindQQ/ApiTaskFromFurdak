@@ -3,12 +3,14 @@ using ApiTask.Bll.Services;
 using ApiTask.Dal.Contexts;
 using ApiTask.Dal.Entities;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 
 namespace ApiTaskFromFurdak.Controllers;
 
 [ApiController]
+[Authorize]
 [Route("api/[controller]")]
 [ProducesResponseType(StatusCodes.Status200OK)]
 [Produces("application/json")]
@@ -25,12 +27,14 @@ public sealed class ProductsController : ControllerBase
     }
 
     [HttpGet("Products")]
+    [AllowAnonymous]
     public async Task<IActionResult> GetProductsAsync()
     {
         return Ok(await _productsService.GetAsync());
     }
 
     [HttpGet("{id:int}")]
+    [AllowAnonymous]
     public async Task<IActionResult> GetProductAsync([Required] int id)
     {
         return Ok(await _productsService.FindProductAsync(new ProductForSearchDto { Id = id }));
